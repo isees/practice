@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Oval</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/jquery-3.2.0.min.js"></script>
+    <script src="js/fun.js"></script>
+    <script>
+        function drawOval(canvas, x0, y0, x1, y1) {
+            x = x0 > x1 ? x1 : x0
+            y = y0 > y1 ? y1 : y0
+            var width = Math.abs(x0 - x1)
+            var height = Math.abs(y0 - y1)
+            var kappa = 0.5,
+                ox = (width / 2) * kappa, // control point offset horizontal
+                oy = (height / 2) * kappa, // control point offset vertical
+                xe = x + width,           // x-end
+                ye = y + height,           // y-end
+                xm = x + width / 2,       // x-middle
+                ym = y + height / 2       // y-middle
+
+            var ctx = canvas.getContext("2d")
+            ctx.save()
+            ctx.beginPath()
+            ctx.strokeStyle = '#dd0200'
+            ctx.lineWidth = '2'
+            ctx.moveTo(x, ym)
+            ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y)
+            ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym)
+            ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye)
+            ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym)
+            ctx.stroke()
+            ctx.restore()
+
+            var radius = 8
+            var lineWidth = 5
+            var fillColor = '#000000'
+            var lineColor = '#ff0a00'
+            var angleArray = [0, Math.PI * 1 / 4, Math.PI / 2, Math.PI * 3 / 4, Math.PI, Math.PI * 5 / 4, Math.PI * 3 / 2, Math.PI * 7 / 4]
+            var points = getOvalCoordinate(angleArray, xm, ym, width / 2, height / 2)
+            for (var i = 0; i < points.length; i++) {
+                drawCircle(canvas, points[i].x, points[i].y, radius, fillColor, lineWidth, lineColor)
+            }
+        }
+
+
+        function drawOval2(canvas, centerX, centerY, width, height) {
+            var width_two_thirds = width * 2 / 3
+            var height_over_2 = height / 2
+            var ctx = canvas.getContext("2d")
+            ctx.save()
+            ctx.beginPath()
+            ctx.strokeStyle = '#dd0200'
+            ctx.lineWidth = 2
+            ctx.moveTo(centerX, centerY - height_over_2);
+            ctx.bezierCurveTo(centerX + width_two_thirds, centerY - height_over_2, centerX + width_two_thirds, centerY + height_over_2, centerX, centerY + height_over_2)
+            ctx.bezierCurveTo(centerX - width_two_thirds, centerY + height_over_2, centerX - width_two_thirds, centerY - height_over_2, centerX, centerY - height_over_2)
+            ctx.closePath()
+            ctx.stroke()
+            ctx.restore()
+
+            var radiusX = width / 2
+            var radiusY = height / 2
+            var radius = 8
+            var lineWidth = 5
+            var fillColor = '#000000'
+            var lineColor = '#ff0a00'
+            var angleArray = [0, Math.PI * 1 / 4, Math.PI / 2, Math.PI * 3 / 4, Math.PI, Math.PI * 5 / 4, Math.PI * 3 / 2, Math.PI * 7 / 4]
+            var points = getOvalCoordinate(angleArray, centerX, centerY, radiusX, radiusY)
+            for (var i = 0; i < points.length; i++) {
+                drawCircle(canvas, points[i].x, points[i].y, radius, fillColor, lineWidth, lineColor)
+            }
+        }
+
+        function drawEllipse(canvas, centerX, centerY, radiusX, radiusY) {
+            var rotation = 0
+            var startAngle = 0
+            var endAngle = 2 * Math.PI
+            var anticlockwise = false
+            var ctx = canvas.getContext("2d")
+            console.log(ctx)
+            ctx.save()
+            ctx.beginPath()
+            ctx.strokeStyle = '#55dbff'
+            ctx.lineWidth = '2'
+            ctx.ellipse(centerX, centerY, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
+            ctx.stroke()
+            ctx.restore()
+            var radius = 8
+            var lineWidth = 5
+            var fillColor = '#000000'
+            var lineColor = '#55dbff'
+            var angleArray = [0, Math.PI / 4, Math.PI / 2, Math.PI * 3 / 4, Math.PI, Math.PI * 5 / 4, Math.PI * 3 / 2, Math.PI * 7 / 4]
+            var points = getOvalCoordinate(angleArray, centerX, centerY, radiusX, radiusY)
+            for (var i = 0; i < points.length; i++) {
+//                drawCircle(canvas, points[i].x, points[i].y, radius, fillColor, lineWidth, lineColor)
+            }
+        }
+
+        function drawEllipseByKappa(canvas, centerX, centerY, radiusX, radiusY, highlight) {
+            var ctx = canvas.getContext('2d')
+            var kappa = .5522848,
+                x = centerX - radiusX,
+                y = centerY - radiusY,
+                ox = radiusX * kappa, // control point offset horizontal
+                oy = radiusY * kappa, // control point offset vertical
+                xe = centerX + radiusX,           // x-end
+                ye = centerY + radiusY;
+
+            ctx.beginPath();
+            ctx.moveTo(x, centerY);
+            ctx.bezierCurveTo(x, centerY - oy, centerX - ox, y, centerX, y);
+            ctx.bezierCurveTo(centerX + ox, y, xe, centerY - oy, xe, centerY);
+            ctx.bezierCurveTo(xe, centerY + oy, centerX + ox, ye, centerX, ye);
+            ctx.bezierCurveTo(centerX - ox, ye, x, centerY + oy, x, centerY);
+            //ctx.closePath(); // not used correctly, see comments (use to close off open path)
+            ctx.stroke();
+
+            if (highlight) {
+                var radius = 8
+                var lineWidth = 5
+                var fillColor = '#000000'
+                var lineColor = '#55dbff'
+                var angleArray = [0, Math.PI * 1 / 4, Math.PI / 2, Math.PI * 3 / 4, Math.PI, Math.PI * 5 / 4, Math.PI * 3 / 2, Math.PI * 7 / 4]
+                var points = getOvalCoordinate(angleArray, centerX, centerY, radiusX, radiusY)
+                for (var i = 0; i < points.length; i++) {
+                    drawCircle(canvas, points[i].x, points[i].y, radius, fillColor, lineWidth, lineColor)
+                }
+            }
+        }
+
+        function drawCircle(canvas, x, y, radius, fillColor, lineWidth, lineColor) {
+            var ctx = canvas.getContext("2d")
+            ctx.save()
+            ctx.beginPath()
+            ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
+            ctx.fillStyle = fillColor
+            ctx.fill()
+            ctx.lineWidth = lineWidth
+            ctx.strokeStyle = lineColor
+            ctx.stroke()
+            ctx.restore()
+        }
+
+        function drawGrid(canvas, space) {
+            var ctx = canvas.getContext("2d")
+            var width = $(canvas).width()
+            var height = $(canvas).height()
+            var limit = width > height ? width : height
+            var x = space, y = space
+            ctx.save()
+            ctx.beginPath()
+            do {
+                ctx.moveTo(x, 0)
+                ctx.lineTo(x, height)
+                ctx.moveTo(0, y)
+                ctx.lineTo(width, y)
+                x += space
+                y += space
+            } while (x < limit)
+            ctx.stroke()
+            ctx.restore()
+        }
+
+
+        /**
+         * Get specific angle point of the given oval
+         */
+        function getOvalCoordinate(angleArray, centerX, centerY, radiusX, radiusY) {
+            if (!Array.isArray(angleArray)) {
+                throw 'angleArray is not an array'
+            }
+            var points = []
+            for (var i = 0; i < angleArray.length; i++) {
+                var angle = angleArray[i]
+//                angle = 2 * Math.PI * (angle / Math.PI / 2 % 1)
+                var x = radiusX * Math.cos(angle) + centerX
+                var y = radiusY * Math.sin(angle) + centerY
+                points.push({x: x, y: y})
+            }
+            return points
+        }
+
+        /**
+         * @deprecated
+         * @param axisName
+         * @param axisValue
+         * @param centerX
+         * @param centerY
+         * @param radiusX
+         * @param radiusY
+         * @returns {Array}
+         */
+        function getOvalCoordinateOld(axisName, axisValue, centerX, centerY, radiusX, radiusY) {
+            var axisMatch = []
+            if (!axisName) {
+                return axisMatch
+            }
+            axisName = axisName.toLowerCase()
+            if (['x', 'y'].indexOf(axisName) < 0) {
+                return axisMatch
+            }
+
+            if (axisName === 'y') {
+                var absMatch = Math.pow((1 - Math.pow((axisValue - centerY) / radiusY, 2)) * Math.pow(radiusX, 2), 1 / 2)
+                axisMatch.push(centerX + absMatch)
+                axisMatch.push(centerX - absMatch)
+            } else {
+                var absMatch = Math.pow((1 - Math.pow((axisValue - centerX) / radiusX, 2) ) * Math.pow(radiusY, 2), 1 / 2)
+                axisMatch.push(centerY + absMatch)
+                axisMatch.push(centerY - absMatch)
+            }
+            return axisMatch
+        }
+    </script>
+    <script>
+        $(function () {
+            var $edit = $('#edit')
+            var $view = $('#view')
+            var $window = $(window)
+            if (!$edit[0] || !$view[0]) {
+                console.log("Canvases' Not Ready")
+                return
+            }
+            console.log("Formal Begin :)")
+            var space = 100
+            var width = $window.width()
+            var height = $window.height()
+            $('canvas').attr('width', width).attr('height', height)
+            drawGrid($view[0], space)
+            drawOval($edit[0], 550, 200, 750, 400)
+            drawOval2($edit[0], 950, 300, 400, 200)
+            drawEllipse($edit[0], 950, 300, 200, 100)
+            drawEllipseByKappa($edit[0], 600, 300, 500, 50, true)
+            drawEllipseByKappa($edit[0], 200, 100, 50, 50, false)
+        })
+        //        console.log('pow 3:2= ' + Math.pow(3, 2))
+        //        console.log('pow 81:1/4= ' + Math.pow(81, 1 / 4))
+        //        console.log('pow -4:2= ' + Math.pow(-4, 2))
+        //        console.log('sqrt 81= ' + Math.sqrt(81))
+
+        angle = Math.PI * 2.5
+        //        console.log('angle: ' + angle)
+        //        console.log('real angle2: ' + Math.PI * ((angle / Math.PI * 0.5) % 1))
+        //        console.log('real angle: ' + Math.PI * (angle / Math.PI * 0.5).decimalPart())
+
+    </script>
+</head>
+<body>
+<div id="container">
+    <canvas id="view"></canvas>
+    <canvas id="edit"></canvas>
+</div>
+</body>
+</html>

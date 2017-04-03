@@ -1,0 +1,13 @@
+html, head, body, div, canvas, a, span, i, iframe {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+#container {
+    position: relative;
+}
+
+#edit, #view {
+    position: absolute;
+}

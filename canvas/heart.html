@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heart</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/jquery-3.2.0.min.js"></script>
+    <script type='text/javascript'>
+        var drawHeart = function (canvas) {
+            var ctx = canvas.getContext("2d");
+            canvas.x = 150;
+            canvas.y = 150;
+            var w = 200, h = 200;
+            ctx.beginPath()
+            ctx.strokeStyle = "#000000";
+            ctx.strokeWeight = 3;
+            ctx.shadowOffsetX = 4.0;
+            ctx.shadowOffsetY = 4.0;
+            ctx.lineWidth = 10.0;
+            ctx.fillStyle = "#FF0000";
+            var d = Math.min(w, h);
+            var k = 120;
+            ctx.moveTo(k, k + d / 4);
+            ctx.quadraticCurveTo(k, k, k + d / 4, k);
+            ctx.quadraticCurveTo(k + d / 2, k, k + d / 2, k + d / 4);
+            ctx.quadraticCurveTo(k + d / 2, k, k + d * 3 / 4, k);
+            ctx.quadraticCurveTo(k + d, k, k + d, k + d / 4);
+            ctx.quadraticCurveTo(k + d, k + d / 2, k + d * 3 / 4, k + d * 3 / 4);
+            ctx.lineTo(k + d / 2, k + d);
+            ctx.lineTo(k + d / 4, k + d * 3 / 4);
+            ctx.quadraticCurveTo(k, k + d / 2, k, k + d / 4);
+            ctx.stroke();
+            ctx.fill();
+            ctx.restore()
+        }
+
+        var drawGrid = function (canvas, space) {
+            var ctx = canvas.getContext("2d")
+            var width = $(canvas).width()
+            var height = $(canvas).height()
+            var limit = width > height ? width : height
+            var x = space, y = space
+            ctx.beginPath()
+            ctx.strokeStyle = '#00f5ff'
+            ctx.strokeWidth = 1
+            do {
+                ctx.moveTo(x, 0)
+                ctx.lineTo(x, height)
+                ctx.moveTo(0, y)
+                ctx.lineTo(width, y)
+                x += space
+                y += space
+            } while (x < limit)
+            ctx.stroke()
+        }
+    </script>
+    <script>
+        $(function () {
+            var $window = $(window)
+            var width = $window.width()
+            var height = $window.height()
+            $('canvas').attr('width', width).attr('height', height)
+
+            var space = 100
+            drawGrid($('canvas')[0], space)
+            drawHeart($('canvas')[0])
+        })
+    </script>
+</head>
+<body>
+<div id="container">
+    <canvas id="edit"></canvas>
+</div>
+</body>
+</html>
