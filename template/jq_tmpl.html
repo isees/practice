@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jquery Templates</title>
+    <script type="text/javascript" src="../plugins/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../plugins/jquery.tmpl.min.js"></script>
+    <script>
+        info = {
+            movies: [
+                {Name: "The Red Violin", ReleaseYear: "1998"},
+                {Name: "Eyes Wide Shut", ReleaseYear: "1999"},
+                {Name: "The Inheritance", ReleaseYear: "1976"}
+            ]
+        }
+    </script>
+    <script id="movieTemplate" type="text/x-jquery-tmpl">
+    <div>
+   {{each(i, v) info.movies}}
+        <li> ${i}. <b>${Name}</b> (${ReleaseYear}) </li>
+        {{/each}}
+    </div>
+    </script>
+    <script>
+        $(function () {
+            $("#movieTemplate").tmpl(info).appendTo("#results")
+        })
+    </script>
+</head>
+<body>
+<div>
+    <ul id="results"></ul>
+</div>
+</body>
+</html>

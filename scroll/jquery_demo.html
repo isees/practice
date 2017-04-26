@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jquery Scrolling</title>
+    <style>
+        .container {
+            width: 100%;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+        }
+
+        .container .item img {
+            height: 300px;
+        }
+    </style>
+    <script src="../plugins/jquery-3.2.0.min.js"></script>
+    <script>
+        $(function () {
+            var menuWidth = 0;
+            $('.wrapper a').map(function () {
+                menuWidth = menuWidth + $(this).outerWidth(true)
+            })
+            $('.wrapper').css('width', (menuWidth + 15))
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <a class="item">
+        <img src="../img/1.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/2.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/3.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/4.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/5.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/6.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/7.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/8.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/9.jpg"/>
+    </a>
+    <a class="item">
+        <img src="../img/10.jpg"/>
+    </a>
+</div>
+</body>
+</html>

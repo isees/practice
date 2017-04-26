@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--Disadvantage: ui style's modification is not flexible-->
+    <!--More Example: https://jqueryui.com/slider/-->
+
+    <link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+    <style>
+        .main {
+            text-align: center;
+            width: 200px;
+            position: absolute;
+            left: 50%;
+            margin-left: -100px;
+        }
+
+        .main input {
+            border: 0;
+            color: #f6931f;
+            font-weight: bold;
+            width: 15px;
+        }
+
+        .slider-bar {
+            width: 7px;
+            margin: 0 20px;
+        }
+
+        .slider-bar .ui-slider-handle {
+            width: 16px;
+            height: 16px;
+        }
+
+        .slider-bar {
+            display: inline-block;
+            height: 200px;
+        }
+
+        #slider-vertical .ui-slider-range, #slider-vertical .ui-slider-handle {
+            background: black;
+        }
+
+        #slider-vertical-orange .ui-slider-range, #slider-vertical-orange .ui-slider-handle {
+            background: orange;
+        }
+
+        #slider-vertical-banana .ui-slider-range, #slider-vertical-banana .ui-slider-handle {
+            background: yellow;
+        }
+    </style>
+    <script type="text/javascript" src="../plugins/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../plugins/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $(".slider-bar, .slider-bar-orange, .slider-bar-banana").slider({
+                orientation: "vertical",
+                range: "min",
+                min: 0,
+                max: 100,
+                value: 50,
+                slide: function (event, ui) {
+                    $("#amount").val(ui.value)
+                }
+            })
+            $("#amount").val($(".slider-bar").slider("value"))
+        });
+    </script>
+</head>
+<body>
+<div class="main">
+    <p>
+        <label for="amount">Volume:</label>
+        <input type="text" id="amount" readonly style="">
+    </p>
+    <div id="slider-vertical" class="slider-bar"></div>
+    <div id="slider-vertical-orange" class="slider-bar"></div>
+    <div id="slider-vertical-banana" class="slider-bar"></div>
+</div>
+</body>
+</html>

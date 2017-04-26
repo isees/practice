@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../plugins/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../plugins/jquery.loadTemplate.min.js"></script>
+
+    <script type="text/html" id="template">
+        <div data-content="author"></div>
+        <div data-content="date"></div>
+        <img data-src="authorPicture" data-alt="author" height="500"/>
+        <div data-content="post"></div>
+    </script>
+
+    <script>
+        $(function () {
+            $("#template-container").loadTemplate($("#template"), {
+                author: 'Yui Aragaki',
+                date: '25th May 2013',
+                authorPicture: '../img/1.jpg',
+                post: 'This is the contents of my post'
+            });
+        })
+    </script>
+</head>
+<body>
+<!--fault: I can't find the "for" loop-->
+<div id="template-container"></div>
+</body>
+</html>
