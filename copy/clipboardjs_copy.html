@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width"
+          name="viewport">
+    <title>Title</title>
+
+    <!--HUAWEI default browser is not support with clipboard.js-->
+    <!--More Example: https://github.com/vast-engineering/jquery-popup-overlay-->
+    <!--More Example: https://clipboardjs.com/-->
+
+    <style>
+        * {
+            font-size: 14px;
+        }
+
+        #my_popup {
+            background: #fff;
+            width: 300px;
+            height: 80px;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        #content {
+            padding: 10px;
+        }
+
+        #my_popup p {
+            text-align: center;
+        }
+
+        #target {
+            width: 100%;
+        }
+
+        .btns {
+            text-align: center;
+            top: 10px;
+        }
+    </style>
+    <script type="text/javascript" src="../plugins/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../plugins/jquery.popupoverlay.js"></script>
+    <script type="text/javascript" src="../plugins/clipboard.min.js"></script>
+    <script>
+        $(function () {
+//            var isClipboardSupport = Clipboard.isSupported()
+            var $target = $("#target")
+            var clipboard = new Clipboard('.btn-copy')
+            $('#my_popup').popup()
+
+            clipboard.on('success', function (e) {
+                $('#my_popup').popup('show')
+                e.clearSelection();
+            });
+
+            clipboard.on('error', function (e) {
+                select($target[0])
+            });
+
+            $target.val($target.data('value') + new Date().getTime())
+        })
+
+        function select(element) {
+            if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {
+                element.focus();
+                element.setSelectionRange(0, element.value.length);
+                document.execCommand("copy");
+            }
+        }
+    </script>
+</head>
+<body>
+<!-- Add an optional button to open the popup -->
+<!--<button class="my_popup_open">Open popup</button>-->
+<!-- Add content to the popup -->
+<div id="my_popup">
+    <p>success</p>
+    <button class="my_popup_close">close</button>
+</div>
+
+<div class="btns">
+    <button class="btn btn-copy" data-clipboard-target="#target">copy</button>
+</div>
+
+<div id="content">
+    <textarea id="target" data-value="...AWESOME:)..."></textarea>
+</div>
+</body>
+</html>

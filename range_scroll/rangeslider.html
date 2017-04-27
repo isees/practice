@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--Options: https://refreshless.com/nouislider/slider-options/-->
+
+    <link rel="stylesheet" type="text/css" href="../css/rangeslider.css">
+    <script type="text/javascript" src="../plugins/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../plugins/rangeslider.min.js"></script>
+    <script>
+        $(function () {
+            $('input[type="range"]').rangeslider({
+
+                // Feature detection the default is `true`.
+                // Set this to `false` if you want to use
+                // the polyfill also in Browsers which support
+                // the native <input type="range"> element.
+                polyfill: false,
+
+                // Default CSS classes
+                rangeClass: 'rangeslider',
+                disabledClass: 'rangeslider--disabled',
+                horizontalClass: 'rangeslider--horizontal',
+                verticalClass: 'rangeslider--vertical',
+                fillClass: 'rangeslider__fill',
+                handleClass: 'rangeslider__handle',
+
+                // Callback function
+                onInit: function () {
+                    console.log("init")
+                },
+
+                // Callback function
+                onSlide: function (position, value) {
+                    console.log(position, value)
+                },
+
+                // Callback function
+                onSlideEnd: function (position, value) {
+                    console.log(position, value)
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="main">
+    <input
+            type="range"
+            min="0"
+            max="255"
+            step="1"
+            value="126"
+            data-orientation="vertical"
+    >
+</div>
+</body>
+</html>
