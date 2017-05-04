@@ -2,15 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width"
+          name="viewport">
     <title>Title</title>
 
-    <!--Options: https://refreshless.com/nouislider/slider-options/-->
+    <!--More Demos: http://rangeslider.js.org/-->
+    <!--Depend on jQuery-->
 
     <link rel="stylesheet" type="text/css" href="../css/rangeslider.css">
+    <style>
+        .main {
+            width: 300px;
+            text-align: center;
+            padding: 20px;
+            position: absolute;
+            left: 50%;
+            margin-left: -160px;
+        }
+
+        .main .rangeslider__handle {
+            width: 20px;
+            height: 20px;
+            left: -6px;
+        }
+
+        .main .rangeslider--vertical {
+            width: 10px;
+            min-height: 160px;
+            max-height: 100%;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .main .rangeslider__handle:after {
+            width: 10px;
+            height: 10px;
+        }
+
+        .main .rangeslider:nth-of-type(3n+1) .rangeslider__fill {
+            background: red;
+        }
+
+        .main .rangeslider:nth-of-type(3n+2) .rangeslider__fill {
+            background: green;
+        }
+
+        .main .rangeslider:nth-of-type(3n+3) .rangeslider__fill {
+            background: blue;
+        }
+
+        #result {
+            margin: 50px 26px;
+            height: 100px;
+            width: 100px;
+            display: inline-block;
+            vertical-align: top;
+            color: rgb(127, 127, 127);
+            background: rgb(127, 127, 127);
+            border: 1px solid #fff;
+            box-shadow: 0 0 10px;
+        }
+    </style>
     <script type="text/javascript" src="../plugins/jquery-3.2.0.min.js"></script>
     <script type="text/javascript" src="../plugins/rangeslider.min.js"></script>
     <script>
         $(function () {
+
+            var $sliders = $("input[type=range]")
+            var $resultElement = $("#result")
             $('input[type="range"]').rangeslider({
 
                 // Feature detection the default is `true`.
@@ -34,7 +93,15 @@
 
                 // Callback function
                 onSlide: function (position, value) {
-                    console.log(position, value)
+                    var color = 'rgb(' +
+                        Math.round($sliders[0].value) + ',' +
+                        Math.round($sliders[1].value) + ',' +
+                        Math.round($sliders[2].value) + ')';
+                    // Fill the color box.
+                    $resultElement.css({
+                        background: color,
+                        color: color
+                    })
                 },
 
                 // Callback function
@@ -47,14 +114,26 @@
 </head>
 <body>
 <div class="main">
-    <input
-            type="range"
-            min="0"
-            max="255"
-            step="1"
-            value="126"
-            data-orientation="vertical"
-    >
+    <input type="range"
+           min="0"
+           max="255"
+           step="1"
+           value="127"
+           data-id="red"
+           data-orientation="vertical">
+    <input type="range"
+           min="0"
+           max="255"
+           step="1"
+           value="127"
+           data-orientation="vertical">
+    <input type="range"
+           min="0"
+           max="255"
+           step="1"
+           value="127"
+           data-orientation="vertical">
+    <div class="result" id="result"></div>
 </div>
 </body>
 </html>

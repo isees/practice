@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width"
+          name="viewport">
     <title>Title</title>
 
     <!--Options: https://refreshless.com/nouislider/slider-options/-->
@@ -12,6 +14,34 @@
             margin: 10px;
             display: inline-block;
             height: 200px;
+            width: 12px;
+        }
+
+        .noUi-vertical .noUi-handle {
+            width: 22px;
+            height: 22px;
+            border-radius: 40%;
+            left: -6px;
+            top: -17px;
+        }
+
+        .noUi-vertical .noUi-handle:after,
+        .noUi-vertical .noUi-handle:before {
+            width: 6px;
+            height: 1px;
+            left: 7px;
+        }
+
+        .noUi-vertical .noUi-handle:before {
+            top: 8px;
+        }
+
+        .noUi-vertical .noUi-handle:after {
+            top: 12px;
+        }
+
+        .noUi-base .noUi-connect {
+            border-radius: 4px;
         }
 
         #colorpicker {
@@ -50,7 +80,6 @@
     <script type="text/javascript" src="../plugins/nouislider.min.js"></script>
     <script type="text/javascript" src="../plugins/wNumb.js"></script>
     <script>
-
 
         $(function () {
             var resultElement = document.getElementById('result'),
@@ -91,7 +120,6 @@
                 sliders[i].noUiSlider.on('slide', setColor);
             }
         })
-        ;
     </script>
 </head>
 <body>
